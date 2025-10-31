@@ -74,12 +74,49 @@ uvicorn app.main:app --reload --host 127.0.0.1 --port 8000 --app-dir backend
 
 Visit: http://127.0.0.1:8000/docs for API documentation
 
+## 🎓 Train Your Own Models
+
+Want to train custom emotion recognition models? We've got you covered!
+
+### Quick Training Setup
+
+```bash
+# 1. Install training dependencies
+pip install -r training/requirements.txt
+
+# 2. Option A: Use RAVDESS dataset
+# Download from https://zenodo.org/record/1188976
+# Extract to data/datasets/RAVDESS/
+python training/prepare_ravdess.py
+python training/train.py --dataset ravdess --epochs 10
+
+# 2. Option B: Use your custom data
+# Organize audio files by emotion in data/datasets/custom/
+python training/prepare_custom.py
+python training/train.py --dataset custom --epochs 10
+```
+
+**📖 Learn More:**
+- [Training Quickstart](TRAINING_QUICKSTART.md) - Get started in 5 minutes
+- [Complete Training Guide](TRAINING_GUIDE.md) - Detailed tutorial
+- [Example Notebook](notebooks/01_training_example.ipynb) - Interactive learning
+
 ## 📚 Documentation
 
+### Getting Started
 - [Quickstart Guide](QUICKSTART.md) - Detailed setup instructions
 - [Command Reference](COMMANDS.md) - Useful commands and scripts
 - [API Documentation](backend/README.md) - Backend API details
 - [Web Guide](web/README.md) - Frontend usage
+
+### Training Your Own Models
+- [Training Quickstart](TRAINING_QUICKSTART.md) - ⚡ Start training in 5 minutes
+- [Complete Training Guide](TRAINING_GUIDE.md) - 📖 In-depth training tutorial
+- [Training Scripts Reference](training/README.md) - 🛠️ Script documentation
+- [Example Notebook](notebooks/01_training_example.ipynb) - 📓 Interactive tutorial
+- [Dataset Guide](data/README.md) - 📊 Dataset preparation
+
+### Project Info
 - [Changelog](CHANGELOG.md) - Version history and roadmap
 
 ## 🏗️ Architecture
@@ -190,10 +227,18 @@ For questions or collaboration:
 ## 🗺️ Roadmap
 
 - [x] MVP with Wav2Vec2 + BERT fusion
-- [x] Web demo interface
+- [x] Web demo interface  
 - [x] RESTful API
+- [x] Training infrastructure and scripts
+- [x] Data preprocessing utilities
+- [x] RAVDESS dataset support
+- [x] Custom dataset support
+- [x] Training documentation and notebooks
 - [ ] ASR integration (Whisper)
-- [ ] RAVDESS/EMO-DB evaluation
+- [ ] RAVDESS/EMO-DB evaluation results
+- [ ] Model ensemble methods
+- [ ] Real-time audio streaming
+- [ ] Deployment guide (Docker, cloud)
 - [ ] Fine-tuning for classroom domain
 - [ ] Real-time emotion tracking
 - [ ] Docker deployment

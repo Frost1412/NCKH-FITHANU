@@ -1,22 +1,61 @@
 # Changelog
 
-Tất cả các thay đổi quan trọng của dự án được ghi lại tại đây.
+All notable changes to this project will be documented in this file.
 
-## [0.1.0] - 2025-11-01
+## [1.1.0] - 2025-11-01
 
-### ✨ Added - Tính năng mới
+### ✨ Added - Training Infrastructure
+
+**Training Scripts:**
+- `training/prepare_ravdess.py` - RAVDESS dataset preprocessing
+- `training/prepare_custom.py` - Custom dataset preprocessing with validation
+- `training/train.py` - Main training script with Wav2Vec2 fine-tuning
+- `training/utils/audio_preprocessing.py` - Audio loading, feature extraction, dataset splits
+- `training/utils/augmentation.py` - Data augmentation utilities
+
+**Data Organization:**
+- `data/raw/` - Original unprocessed audio files
+- `data/processed/` - Preprocessed features and metadata
+- `data/datasets/RAVDESS/` - RAVDESS dataset location
+- `data/datasets/EMO-DB/` - EMO-DB dataset location
+- `data/datasets/custom/` - Custom classroom recordings
+- `models/checkpoints/` - Saved model weights
+
+**Training Features:**
+- Automated train/val/test splitting with stratification
+- Audio validation (format, duration, quality checks)
+- Data augmentation (time stretch, pitch shift, noise, volume, masking)
+- Wav2Vec2 fine-tuning with early stopping
+- Comprehensive evaluation (accuracy, F1, confusion matrix)
+- Weights & Biases integration for experiment tracking
+- Multiple pretrained model support
+
+**Documentation:**
+- `TRAINING_GUIDE.md` - Complete training tutorial (6.5KB)
+- `TRAINING_QUICKSTART.md` - Quick start guide
+- `training/README.md` - Training scripts reference
+- `data/README.md` - Dataset organization guide
+- `TRAINING_SUMMARY.md` - Infrastructure summary
+- `PROJECT_STRUCTURE.md` - Complete project overview
+
+**Learning Materials:**
+- `notebooks/01_training_example.ipynb` - Interactive tutorial
+
+## [1.0.0] - 2025-11-01
+
+### ✨ Added - Initial Release
 
 **Backend (FastAPI):**
-- API endpoint `/health` để health check
-- API endpoint `/predict` để nhận diện cảm xúc từ audio
-- Hỗ trợ multipart form upload (audio file + optional transcript)
-- Tích hợp Wav2Vec2 model (`superb/wav2vec2-base-superb-er`) cho audio emotion
-- Tích hợp DistilRoBERTa model (`j-hartmann/emotion-english-distilroberta-base`) cho text emotion
-- Cơ chế fusion đa phương thức (audio + text) với trọng số điều chỉnh
-- CORS middleware để support web frontend
-- Pydantic schemas cho type-safe responses
+- API endpoint `/health` for health check
+- API endpoint `/predict` for emotion recognition from audio
+- Multipart form upload support (audio file + optional transcript)
+- Wav2Vec2 model integration (`superb/wav2vec2-base-superb-er`) for audio emotion
+- DistilRoBERTa model integration (`j-hartmann/emotion-english-distilroberta-base`) for text emotion
+- Multi-modal fusion mechanism (audio + text) with adjustable weights
+- CORS middleware to support web frontend
+- Pydantic schemas for type-safe responses
 - Audio processing utilities: load audio, MFCC, Mel-spectrogram
-- Label mapping về 7 base emotions (anger, disgust, fear, joy, sadness, surprise, neutral)
+- Label mapping to 7 base emotions (anger, disgust, fear, joy, sadness, surprise, neutral)
 
 **Web Frontend:**
 - Upload audio files (.wav, .mp3, etc.)
@@ -25,31 +64,31 @@ Tất cả các thay đổi quan trọng của dự án được ghi lại tại
 - Adjustable audio weight slider (0-1)
 - Display results: final label, score, top-k from 3 sources
 - Dark theme responsive design
-- Error handling với user-friendly messages
+- Error handling with user-friendly messages
 - Auto-scroll to results
 - File info display (name, size)
 
 **Documentation:**
-- README.md với giới thiệu đầy đủ
-- QUICKSTART.md với hướng dẫn chạy chi tiết
-- COMMANDS.md với quick reference
-- backend/README.md với API docs
-- web/README.md với frontend usage
+- README.md with complete introduction
+- QUICKSTART.md with detailed setup guide
+- COMMANDS.md with quick reference
+- backend/README.md with API docs
+- web/README.md with frontend usage
 - Inline code comments
 
 **Scripts & Tools:**
-- `run_backend.ps1` - Script PowerShell tự động chạy backend
+- `run_backend.ps1` - PowerShell script to auto-start backend
 - `check_backend.py` - Health check script
-- `create_sample_audio.py` - Tạo file audio test
+- `create_sample_audio.py` - Create test audio files
 - `.gitignore` - Ignore Python/IDE/cache files
 - `requirements.txt` - Python dependencies
 
 **Tests:**
-- `test_audio_processing.py` - Unit test cho MFCC computation
+- `test_audio_processing.py` - Unit test for MFCC computation
 
 ### 🏗️ Architecture
 
-**Cấu trúc dự án:**
+**Project Structure:**
 ```
 NCKH2025/
 ├── backend/
@@ -108,32 +147,32 @@ NCKH2025/
 ### 🎯 Emotions Supported
 
 7 base emotions:
-1. Anger (tức giận)
-2. Disgust (ghê tởm)
-3. Fear (sợ hãi)
-4. Joy (vui vẻ)
-5. Sadness (buồn bã)
-6. Surprise (ngạc nhiên)
-7. Neutral (trung tính)
+1. Anger
+2. Disgust
+3. Fear
+4. Joy
+5. Sadness
+6. Surprise
+7. Neutral
 
 ### 📝 Notes
 
 - MVP version - proof of concept
-- Models được cache local sau lần tải đầu tiên
-- Inference speed: 1-3s cho audio < 10s (CPU)
+- Models are cached locally after first download
+- Inference speed: 1-3s for audio < 10s (CPU)
 - Default fusion weights: audio 0.7, text 0.3
 - Target sampling rate: 16kHz
-- CORS enabled cho localhost development
+- CORS enabled for localhost development
 
 ### 🚧 Known Limitations
 
-- Chỉ hỗ trợ tiếng Anh (models trained on English)
-- Chưa có ASR tự động (transcript nhập tay)
-- Chưa tối ưu cho production (single worker)
-- Chưa có logging/monitoring
-- Chưa có authentication
-- Chưa test trên datasets chuẩn (RAVDESS, EMO-DB)
-- Frontend đơn giản (no real-time, no batch)
+- English language only (models trained on English)
+- No automatic ASR (transcript must be manually entered)
+- Not optimized for production (single worker)
+- No logging/monitoring
+- No authentication
+- Not yet tested on standard datasets (RAVDESS, EMO-DB) - now available in v1.1.0
+- Simple frontend (no real-time, no batch)
 
 ---
 
@@ -141,32 +180,84 @@ NCKH2025/
 
 ### 🔮 Planned Features
 
-**Phase 2: Data & Evaluation**
-- [ ] Tích hợp RAVDESS dataset
-- [ ] Tích hợp EMO-DB dataset
-- [ ] Module đánh giá: Accuracy, F1, Precision, Recall
-- [ ] Confusion Matrix visualization
-- [ ] Benchmark với baseline methods
+**Phase 2: Advanced Features**
+- [ ] Automatic Speech Recognition (ASR) integration with Whisper
+- [ ] Real-time audio streaming support
+- [ ] Batch processing for multiple files
+- [ ] Model ensemble methods
+- [ ] Production optimization (multi-worker, caching)
+- [ ] Logging and monitoring dashboard
+- [ ] User authentication and API keys
 
-**Phase 3: ASR Integration**
-- [ ] Tích hợp Whisper cho speech-to-text
-- [ ] Hoặc Vosk (offline ASR)
-- [ ] Auto transcript generation
+**Phase 3: Research & Evaluation**
+- [x] RAVDESS dataset integration
+- [x] EMO-DB dataset support
+- [x] Evaluation module: Accuracy, F1, Precision, Recall
+- [ ] Confusion Matrix visualization in web UI
+- [ ] Benchmark against baseline methods
+- [ ] Cross-dataset evaluation
+- [ ] Publish research results
 
-**Phase 4: Model Improvement**
-- [ ] Fine-tune trên classroom domain
-- [ ] Noise reduction pipeline
-- [ ] Domain adaptation
-- [ ] Multi-lingual support (Vietnamese)
-
-**Phase 5: Production Ready**
+**Phase 4: Deployment**
 - [ ] Docker containerization
-- [ ] CI/CD pipeline
-- [ ] Logging (structlog)
-- [ ] Monitoring (Prometheus)
-- [ ] Authentication & Authorization
+- [ ] Cloud deployment guide (AWS, Azure, GCP)
+- [ ] REST API documentation (OpenAPI/Swagger)
+- [ ] Client SDKs (Python, JavaScript)
+- [ ] Performance optimization
+- [ ] Scalability improvements
+
+**Phase 5: Model Improvement**
+- [ ] Whisper integration for speech-to-text
+- [ ] Offline ASR option (Vosk)
+- [ ] Auto transcript generation
+- [ ] Fine-tune on classroom domain data
+- [ ] Noise reduction pipeline
+- [ ] Domain adaptation techniques
+- [ ] Multi-lingual support (Vietnamese, etc.)
+
+**Phase 6: Production Ready**
+- [ ] Docker containerization
+- [ ] CI/CD pipeline (GitHub Actions)
+- [ ] Structured logging (structlog)
+- [ ] Monitoring dashboard (Prometheus/Grafana)
+- [ ] Authentication & Authorization (OAuth2/JWT)
 - [ ] Rate limiting
 - [ ] Caching layer (Redis)
+- [ ] Load balancing
+- [ ] Database integration for result storage
+- [ ] API versioning
+
+### 🐛 Bug Fixes
+
+None reported yet - this is the initial release.
+
+### 📚 Documentation Updates
+
+- All documentation translated to English
+- Comprehensive training guides added
+- Interactive Jupyter notebook tutorial
+- Complete API reference
+- Deployment guides
+
+---
+
+## Release Notes
+
+### Version 1.1.0 - Training Infrastructure
+Major update adding complete training capabilities for custom model development.
+
+### Version 1.0.0 - Initial Release
+First public release with core emotion recognition functionality and web demo.
+
+---
+
+**Legend:**
+- ✨ New features
+- 🐛 Bug fixes
+- 🏗️ Architecture changes
+- 📚 Documentation
+- 🚧 Known issues
+- 🔮 Future plans
 
 **Phase 6: Advanced Frontend**
 - [ ] Real-time emotion tracking
