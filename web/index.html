@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Speech Emotion Recognition</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>🎙️ Speech Emotion Recognition</h1>
+      <p class="subtitle">AI-powered emotion analysis combining Wav2Vec2 (audio) + DistilRoBERTa (text) for online classroom environments</p>
+
+      <div class="card">
+        <label for="audio">Audio File</label>
+        <input id="audio" type="file" accept="audio/*" />
+        <audio id="player" controls style="margin-top: 8px; width: 100%; display: none;"></audio>
+        <div id="fileInfo" style="margin-top: 8px; font-size: 14px; color: #9fb0c3;"></div>
+      </div>
+
+      <div class="card">
+        <label for="transcript">Transcript (optional)</label>
+        <textarea id="transcript" rows="3" placeholder="Enter English transcript if available..."></textarea>
+        <label for="audio_weight">Audio Weight (0-1, default 0.7)</label>
+        <input id="audio_weight" type="number" min="0" max="1" step="0.05" value="0.7" />
+        <button id="predictBtn">Predict Emotion</button>
+      </div>
+
+      <div id="result" class="card" style="display: none">
+        <h3>📊 Analysis Results</h3>
+        <div style="padding: 12px; background: #0e1628; border-radius: 8px; margin-bottom: 16px;">
+          <p style="margin: 0;"><strong>Primary Emotion:</strong> <span id="finalLabel"></span></p>
+          <p style="margin: 8px 0 0 0;"><strong>Confidence:</strong> <span id="finalScore"></span></p>
+        </div>
+        <div class="columns">
+          <div>
+            <h4>Fusion Top-k</h4>
+            <ol id="fusionList"></ol>
+          </div>
+          <div>
+            <h4>Audio Top-k</h4>
+            <ol id="audioList"></ol>
+          </div>
+          <div>
+            <h4>Text Top-k</h4>
+            <ol id="textList"></ol>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <p style="margin: 0 0 8px 0;">🔗 <strong>Backend API:</strong> <a href="http://127.0.0.1:8000/health" target="_blank" style="color: var(--accent);">http://127.0.0.1:8000</a></p>
+        <p style="margin: 0; font-size: 12px;">Please start backend before using this web interface. See <a href="../QUICKSTART.md" style="color: var(--accent);">QUICKSTART.md</a></p>
+      </footer>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
