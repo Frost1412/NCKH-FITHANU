@@ -45,7 +45,7 @@ This system detects 7 emotions from speech:
 
 ```bash
 # Clone repository
-git clone https://github.com/YOUR_USERNAME/NCKH-FITHANU.git
+git clone https://github.com/Frost1412/NCKH-FITHANU.git
 cd NCKH-FITHANU
 
 # Create virtual environment
